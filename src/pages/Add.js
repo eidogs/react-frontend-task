@@ -15,11 +15,15 @@ const Add = () => {
 		city: "",
 	});
 	const [loading, setLoading] = useState(false);
+	const [fieldRequiredErrorMessage, setFieldRequiredErrorMessage] = useState("");
 	const error = useSelector(state => state.error);
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 
 	const handleChange = (event, key) => {
+		if (fieldRequiredErrorMessage) {
+			setFieldRequiredErrorMessage("");
+		}
 		const formData = { ...userData };
 		formData[key] = event.target.value;
 		setUserData(formData);
@@ -27,6 +31,12 @@ const Add = () => {
 
 	const handleSubmit = (event) => {
 		event.preventDefault();
+		if (userData.name === "" || userData.email === "") {
+			if (userData.name === "") {
+				return setFieldRequiredErrorMessage("The name field is required")
+			}
+			return setFieldRequiredErrorMessage("The email is required");
+		}
 		setLoading(true);
 		axios
 			.post(JSON_PLACEHOLDER_URL)
@@ -48,6 +58,7 @@ const Add = () => {
 			</div>
 			<div className="card-body">
 				{error && <div className="alert alert-danger">{error.message}</div>}
+				{fieldRequiredErrorMessage && <div className="alert alert-danger">{fieldRequiredErrorMessage}</div>}
 				<div className="form-group row ml-5">
 					<label
 						htmlFor="name"

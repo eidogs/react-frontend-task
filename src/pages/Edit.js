@@ -16,6 +16,7 @@ const Edit = () => {
     username: location.state.username,
   });
   const [address, setAddress] = useState(location.state.address);
+  const [fieldRequiredErrorMessage, setFieldRequiredErrorMessage] = useState("");
 
   const [loading, setLoading] = useState(false);
   const error = useSelector(state => state.error);
@@ -23,6 +24,9 @@ const Edit = () => {
   const navigate = useNavigate();
 
   const handleChange = (event, key) => {
+    if (fieldRequiredErrorMessage) {
+      setFieldRequiredErrorMessage("");
+    }
     const formData = { ...userData };
     formData[key] = event.target.value;
     setUserData(formData );
@@ -37,6 +41,12 @@ const Edit = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
+    if (userData.name === "" || userData.email === "") {
+      if (userData.name === "") {
+        return setFieldRequiredErrorMessage("The name field is required")
+      }
+      return setFieldRequiredErrorMessage("The email is required");
+    }
     setLoading(true);
     axios
       .put(`${JSON_PLACEHOLDER_URL}${userData.id}`)
@@ -58,6 +68,7 @@ const Edit = () => {
       </div>
       <div className="card-body">
         {error && <div className="alert alert-danger">{error.message}</div>}
+        {fieldRequiredErrorMessage && <div className="alert alert-danger">{fieldRequiredErrorMessage}</div>}
         <div className="form-group row ml-5">
           <label
             htmlFor="name"
