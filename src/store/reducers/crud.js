@@ -65,24 +65,24 @@ const crudReducer = (state = INITIAL_STATE, action) => {
             const arrToSort = [...state.users];
             if (action.payload === "asc") {
                 arrToSort.sort((user1, user2) => {
-                    const name1 = user1.name.toUpperCase();
-                    const name2 = user2.name.toUpperCase();
-                    if (name1 < name2) {
+                    const username1 = user1.username.toUpperCase();
+                    const username2 = user2.username.toUpperCase();
+                    if (username1 < username2) {
                         return -1;
                     }
-                    if (name1 > name2) {
+                    if (username1 > username2) {
                         return 1;
                     }
                     return 0;
                 })
             } else if (action.payload === "desc") {
                 arrToSort.sort((user1, user2) => {
-                    const name1 = user1.name.toUpperCase();
-                    const name2 = user2.name.toUpperCase();
-                    if (name1 > name2) {
+                    const username1 = user1.username.toUpperCase();
+                    const username2 = user2.username.toUpperCase();
+                    if (username1 > username2) {
                         return -1;
                     }
-                    if (name1 < name2) {
+                    if (username1 < username2) {
                         return 1;
                     }
                     return 0;
