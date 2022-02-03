@@ -1,11 +1,20 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import { Routes, Route } from 'react-router-dom';
 
 import Home from './pages/Home';
 import Add from './pages/Add';
 import Edit from './pages/Edit';
 
+import { fetchUsers } from "./store/actions/crud";
+
 function App() {
+  const dispatch = useDispatch();
+  
+  useEffect(() => {
+    dispatch(fetchUsers());
+  }, []);
+
   return (
     <div className="container mt-5">
       <h1>Dashboard</h1>

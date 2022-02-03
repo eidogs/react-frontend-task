@@ -8,7 +8,6 @@ import Loader from "../components/Loader/Loader";
 import { JSON_PLACEHOLDER_URL } from "../config/constants";
 
 import {
-  fetchUsers,
   deleteUserSuccess,
   requestFailed,
   sortUsers
@@ -37,10 +36,6 @@ const Home = () => {
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
-  useEffect(() => {
-    dispatch(fetchUsers());
-  }, []);
 
   const handleEditClick = (userData) => {
     navigate("/edit", { state: userData });
