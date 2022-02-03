@@ -5,7 +5,7 @@ import axios from "axios";
 
 import Loader from "../components/Loader/Loader";
 import { addUserSuccess, requestFailed } from "../store/actions/crud";
-import { BASE_URL } from "../config/constants";
+import { JSON_PLACEHOLDER_URL } from "../config/constants";
 
 const Add = () => {
 	const [userData, setUserData] = useState({
@@ -29,7 +29,7 @@ const Add = () => {
 		event.preventDefault();
 		setLoading(true);
 		axios
-			.post(`${BASE_URL}`)
+			.post(JSON_PLACEHOLDER_URL)
 			.then(() => {
 				dispatch(addUserSuccess({ ...userData, address: { city: userData.city } }));
 				setLoading(false);

@@ -9,9 +9,7 @@ import {
 } from "./actionTypes";
 import axios from "axios";
 
-import { BASE_URL } from '../../config/constants';
-
-const DATA_URL = `${BASE_URL}karolkproexe/jsonplaceholderdb/data`;
+import { USERS_URL } from '../../config/constants';
 
 export const usersFetchSuccess = (data) => {
     return {
@@ -64,7 +62,7 @@ export const sortUsers = (order = "asc") => {
 export const fetchUsers = () => (dispatch) => {
     dispatch(loadRequest());
     axios
-        .get(DATA_URL)
+        .get(USERS_URL)
         .then(({ data }) => {
             dispatch(usersFetchSuccess(data));
         })

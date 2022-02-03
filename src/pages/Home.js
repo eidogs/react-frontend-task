@@ -5,7 +5,7 @@ import Modal from "react-modal";
 import axios from "axios";
 
 import Loader from "../components/Loader/Loader";
-import { BASE_URL } from "../config/constants";
+import { JSON_PLACEHOLDER_URL } from "../config/constants";
 
 import {
   fetchUsers,
@@ -54,7 +54,7 @@ const Home = () => {
   const deleteUser = () => {
     setDeleting(true);
     axios
-      .delete(BASE_URL)
+      .delete(`${JSON_PLACEHOLDER_URL}${itemToDeleteId}`)
       .then(() => {
         dispatch(deleteUserSuccess(itemToDeleteId));
         setDeleting(false);

@@ -5,7 +5,7 @@ import axios from "axios";
 
 import Loader from "../components/Loader/Loader";
 import { editUserSuccess, requestFailed } from "../store/actions/crud";
-import { BASE_URL } from "../config/constants";
+import { JSON_PLACEHOLDER_URL } from "../config/constants";
 
 const Edit = () => {
   const location = useLocation();
@@ -39,7 +39,7 @@ const Edit = () => {
     event.preventDefault();
     setLoading(true);
     axios
-      .put(`${BASE_URL}`)
+      .put(`${JSON_PLACEHOLDER_URL}${userData.id}`)
       .then(() => {
         dispatch(editUserSuccess({ ...userData, address: address }));
         setLoading(false);
