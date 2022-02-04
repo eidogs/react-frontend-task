@@ -10,7 +10,7 @@ import { JSON_PLACEHOLDER_URL } from "../config/constants";
 import {
   deleteUserSuccess,
   requestFailed,
-  sortUsers
+  sortUsers,
 } from "../store/actions/crud";
 
 const customStyles = {
@@ -64,21 +64,20 @@ const Home = () => {
   const sort = () => {
     dispatch(sortUsers(sortType));
     setSortType(!sortType ? "desc" : sortType === "asc" ? "desc" : "asc");
-  }
+  };
 
   return (
     <div className="card mt-5 mb-5">
       <div className="card-header d-flex align-items-center justify-content-between">
         <h5>User list</h5>
-        <button className="btn btn-secondary" onClick={sort}>
-          Sort        
-        </button>
         <button className="btn btn-primary" onClick={() => navigate("/add")}>
           Add new
         </button>
       </div>
       <div className="card-body">
-        {!loading && users.length === 0 && <div className="alert alert-warning">Users list is empty</div>}
+        {!loading && users.length === 0 && (
+          <div className="alert alert-warning">Users list is empty</div>
+        )}
         {error && <div className="alert alert-danger">{error.message}</div>}
         {loading ? (
           <Loader />
@@ -88,7 +87,12 @@ const Home = () => {
               <tr className="text-center">
                 <th scope="col">Id</th>
                 <th scope="col">Name</th>
-                <th scope="col">Username</th>
+                <th scope="col">
+                  Username
+                  <span className="ml-2" onClick={sort} style={{ cursor: "pointer" }}>
+                    {!sortType ? "↟" : sortType === "asc" ? "↟" : "↡"}
+                  </span>
+                </th>
                 <th scope="col">Email</th>
                 <th scope="col">City</th>
                 <th scope="col">Edit</th>
