@@ -75,9 +75,6 @@ const Home = () => {
         </button>
       </div>
       <div className="card-body">
-        {!loading && users.length === 0 && (
-          <div className="alert alert-warning">Users list is empty</div>
-        )}
         {error && <div className="alert alert-danger">{error.message}</div>}
         {loading ? (
           <Loader />
@@ -130,8 +127,12 @@ const Home = () => {
             </tbody>
           </table>
         )}
+        {!loading && users.length === 0 && (
+          <div className="alert alert-warning text-center">Users list is empty</div>
+        )}
       </div>
       <Modal
+        appElement={document.getElementById('root') || undefined}
         isOpen={modalVisible}
         onRequestClose={() => setModalVisible(false)}
         style={customStyles}
