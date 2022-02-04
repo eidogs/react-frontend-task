@@ -37,9 +37,10 @@ const crudReducer = (state = INITIAL_STATE, action) => {
             };
         case ADD_USER_SUCCESS:
             const newArr = [...state.users];
+            const lastUser = newArr[state.users.length - 1];
             newArr.push({
                 ...action.payload,
-                id: state.users.length + 1
+                id: lastUser.id + 1
             });
             return {
                 ...state,
