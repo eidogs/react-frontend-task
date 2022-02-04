@@ -13,7 +13,7 @@ function App() {
   
   useEffect(() => {
     dispatch(fetchUsers());
-  }, []);
+  }, [dispatch]);
 
   return (
     <div className="container mt-5">
