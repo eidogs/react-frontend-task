@@ -15,14 +15,14 @@ const Add = () => {
 		city: "",
 	});
 	const [loading, setLoading] = useState(false);
-	const [fieldRequiredErrorMessage, setFieldRequiredErrorMessage] = useState("");
-	const error = useSelector(state => state.error);
+	const [formFieldError, setFormFieldError] = useState("");
+	const error = useSelector((state) => state.error);
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 
 	const handleChange = (event, key) => {
-		if (fieldRequiredErrorMessage) {
-			setFieldRequiredErrorMessage("");
+		if (formFieldError) {
+			setFormFieldError("");
 		}
 		const formData = { ...userData };
 		formData[key] = event.target.value;
@@ -33,15 +33,27 @@ const Add = () => {
 		event.preventDefault();
 		if (userData.name === "" || userData.email === "") {
 			if (userData.name === "") {
-				return setFieldRequiredErrorMessage("The name field is required")
+				return setFormFieldError("The name field is required");
 			}
-			return setFieldRequiredErrorMessage("The email is required");
+			return setFormFieldError("The email is required");
+		}
+		if (
+			!userData.email.match(
+				/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+			)
+		) {
+			return setFormFieldError("The email format is incorrect");
 		}
 		setLoading(true);
 		axios
 			.post(JSON_PLACEHOLDER_URL)
 			.then(() => {
-				dispatch(addUserSuccess({ ...userData, address: { city: userData.city } }));
+				dispatch(
+					addUserSuccess({
+						...userData,
+						address: { city: userData.city },
+					})
+				);
 				setLoading(false);
 				navigate(-1);
 			})
@@ -57,8 +69,12 @@ const Add = () => {
 				<h5>Add User</h5>
 			</div>
 			<div className="card-body">
-				{error && <div className="alert alert-danger">{error.message}</div>}
-				{fieldRequiredErrorMessage && <div className="alert alert-danger">{fieldRequiredErrorMessage}</div>}
+				{error && (
+					<div className="alert alert-danger">{error.message}</div>
+				)}
+				{formFieldError && (
+					<div className="alert alert-danger">{formFieldError}</div>
+				)}
 				<div className="form-group row ml-5">
 					<label
 						htmlFor="name"

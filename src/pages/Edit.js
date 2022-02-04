@@ -16,7 +16,7 @@ const Edit = () => {
     username: location.state.username,
   });
   const [address, setAddress] = useState(location.state.address);
-  const [fieldRequiredErrorMessage, setFieldRequiredErrorMessage] = useState("");
+  const [formFieldError, setFormFieldError] = useState("");
 
   const [loading, setLoading] = useState(false);
   const error = useSelector(state => state.error);
@@ -24,8 +24,8 @@ const Edit = () => {
   const navigate = useNavigate();
 
   const handleChange = (event, key) => {
-    if (fieldRequiredErrorMessage) {
-      setFieldRequiredErrorMessage("");
+    if (formFieldError) {
+      setFormFieldError("");
     }
     const formData = { ...userData };
     formData[key] = event.target.value;
@@ -43,9 +43,16 @@ const Edit = () => {
     event.preventDefault();
     if (userData.name === "" || userData.email === "") {
       if (userData.name === "") {
-        return setFieldRequiredErrorMessage("The name field is required")
+        return setFormFieldError("The name field is required")
       }
-      return setFieldRequiredErrorMessage("The email is required");
+      return setFormFieldError("The email is required");
+    }
+    if (
+      !userData.email.match(
+        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+      )
+    ) {
+      return setFormFieldError("The email format is incorrect");
     }
     setLoading(true);
     axios
@@ -68,7 +75,7 @@ const Edit = () => {
       </div>
       <div className="card-body">
         {error && <div className="alert alert-danger">{error.message}</div>}
-        {fieldRequiredErrorMessage && <div className="alert alert-danger">{fieldRequiredErrorMessage}</div>}
+        {formFieldError && <div className="alert alert-danger">{formFieldError}</div>}
         <div className="form-group row ml-5">
           <label
             htmlFor="name"
